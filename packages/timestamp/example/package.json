@@ -24,7 +24,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-builders/timestamp": "latest",
+    "@angular-builders/timestamp": "next",
     "@angular-devkit/build-angular": "^12.0.0",
     "@angular/cli": "^12.0.0",
     "@angular/compiler-cli": "^12.0.0",

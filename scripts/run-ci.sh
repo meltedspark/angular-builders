@@ -25,6 +25,14 @@ function handle_exit {
   exit
 }
 
+function upgradeLocals() {
+    yarn workspace sanity-app upgrade @angular-builders/custom-webpack
+    yarn workspace full-cycle-app upgrade @angular-builders/custom-webpack
+    yarn workspace simple-app upgrade @angular-builders/jest
+    yarn workspace multiple-apps upgrade @angular-builders/jest
+    yarn workspace example upgrade @angular-builders/timestamp
+}
+
 # Exit the script with a helpful error message when any error is encountered
 trap 'set +x; handle_error $LINENO $BASH_COMMAND' ERR
 
@@ -42,13 +50,13 @@ startLocalRegistry "$root_path"/scripts/verdaccio.yaml
 
 publishToLocalRegistry
 
-yarn bootstrap:examples
+upgradeLocals
 
 # Get travis's chrome version and download the appropriate webdriver-manager for protractor
 CHROME_VERSION=`google-chrome --version | egrep -o '[0-9.]+' | head -1`
-npx lerna exec --ignore '@angular-builders/*' -- ./node_modules/protractor/bin/webdriver-manager update --versions.chrome $CHROME_VERSION
+yarn webdriver-manager update --versions.chrome $CHROME_VERSION
 
-npx lerna run ci
+yarn lerna run ci
 
 cleanup
 
